@@ -1,0 +1,93 @@
+<section class="image-slider my-5">
+  {% if section.settings.title != blank %}
+    <h3 class="h3 text-center">
+      {{ section.settings.title }}
+    </h3>
+  {% endif %}
+
+  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+    <div class="carousel-indicators">
+      {% for block in section.blocks %}
+        <button
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide-to="{{ forloop.index0 }}"
+          {% if forloop.index0 == 0 %}
+            class="active"
+          {% endif %}
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+      {% endfor %}
+    </div>
+    <div class="carousel-inner">
+      {% for block in section.blocks %}
+        <div class="carousel-item {% if forloop.first %} active {%endif%}">
+          <img src="{{ block.settings.image | img_url: 'master' }}" class="d-block w-100" alt="...">
+          <div class="carousel-caption d-none d-md-block">
+            <h5 class="h5 text-danger">{{ block.settings.title }}</h5>
+            <p class="text-primary">{{ block.settings.paragraph }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon control-icon prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon control-icon next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Image Slider",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image Slider"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Slider title"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Image title"
+        },
+        {
+          "type": "text",
+          "id": "paragraph",
+          "label": "Image text"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Image Slider",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}
